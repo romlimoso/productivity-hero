@@ -1,0 +1,13 @@
+<h1>Day-Logs</h1>
+{{#each dayLogs}}
+	<div>
+		<h2>Day: {{day}}</h2>
+		<h2>Productive Hours: {{productiveHours}}</h2>
+		<h2>Semi-Productive Hours: {{semiProductiveHours}}</h2>
+		<h2>User: {{owner.username}}</h2>
+
+		<a href="/day-logs/{{_id}}/delete">Delete this Day-Log</a>
+	</div>
+{{/each}}
+<a href="/day-logs/add">Add a Day-Log</a>
+<a href="/profile">User profile</a>
