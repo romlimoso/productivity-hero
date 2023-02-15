@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { isLoggedIn } = require("../middleware/route-guard");
 const DayLog = require('../models/DayLog.model')
+const UserLog = require('../models/UserLog.model')
 
 router.get('/day-logs/add', (req, res, next) => {
 	res.render('day-logs/add')
@@ -13,12 +14,22 @@ router.post('/day-logs', (req, res, next) => {
 	const userId = req.session.user._id
 	DayLog.create({ day, productiveHours, semiProductiveHours, owner: userId })
 		.then(createdDayLog => {
-			res.redirect('/day-logs')
+			
+			UserLog.findOneAndUpdate(
+			 	{ owner: userId },
+				{ $push: { logs: createdDayLog } }
+			)
+			.then(() => {
+				res.redirect('/day-logs')
+			})
 		})
 		.catch(err => {
 			next(err)
 		})
+	
 });
+
+
 
 router.get('/day-logs', isLoggedIn, (req, res, next) => {
 	const userId = req.session.user._id

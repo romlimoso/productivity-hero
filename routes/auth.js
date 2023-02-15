@@ -1,6 +1,7 @@
 const router = require("express").Router()
 const User = require("../models/User.model")
 const bcrypt = require("bcryptjs")
+const UserLog = require("../models/UserLog.model")
 
 router.get("/auth/signup", (req, res, next) => {
   res.render("signup")
@@ -34,6 +35,7 @@ router.post("/auth/signup", (req, res, next) => {
       if (userFromDB !== null) {
         res.render("signup", { message: "Username is already taken" })
       } else {
+
         // Username is available
         // Hash password
         const salt = bcrypt.genSaltSync()
@@ -44,11 +46,21 @@ router.post("/auth/signup", (req, res, next) => {
         User.create({ username: username, password: hash })
           .then(createdUser => {
             console.log(createdUser)
-            res.redirect("/auth/login")
+
+        // Create UserLog
+        UserLog.create({ owner: createdUser._id })
+        
+            .then(() => {            
+              res.redirect("/auth/login")
+          })
+
           })
           .catch(err => {
             next(err)
           })
+        
+
+
       }
     })
 })

@@ -4,6 +4,11 @@ const dayLogSchema = new Schema({
 	day: Number,
 	productiveHours: Number,
 	semiProductiveHours: Number,
+/* 	intenseActiveHours: Number,
+	moderateActiveHours: Number,
+	healthyNutrition: Boolean,
+	hoursOfSleep: Number, */
+	
 	owner: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'

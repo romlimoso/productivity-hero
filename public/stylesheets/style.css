@@ -3,9 +3,18 @@ body {
     font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
     color: white;
     background-color: black;
-
   }
   
+  .dayLog{
+    flex-direction: row;
+    align-items: center ;
+  }
+
+  .dayLog {
+    display: flex;
+  
+  }
+
   .main {
     display: flex;
     text-align: center;
@@ -14,6 +23,7 @@ body {
   h1 {
     text-align: center;
   }
+
   a {
     color: #00b7ff;
     text-decoration: none;
