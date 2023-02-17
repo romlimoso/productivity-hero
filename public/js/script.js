@@ -92,7 +92,10 @@ const printChart = userData => {
   for (let i=0; i < nutrition.length; i++){
     nutritionBubble.push([0, 12, nutrition[i]*3])
   }
-
+  let invisibleBubble = []
+  for (let i=0; i < nutrition.length; i++){
+    invisibleBubble.push([0, 2, 1])
+  }
 
 	// draw the chart
 	const ctx = document.querySelector('.myChart').getContext('2d')
@@ -134,7 +137,16 @@ const printChart = userData => {
           borderColor: 'rgb(255,127,80)',
           backgroundColor: 'rgb(255,127,80)',
           order: 2
+        },
+        {
+          type: 'bubble',
+          data: invisibleBubble,
+          label: 'Quality of Nutrition',
+          borderColor: 'rgb(255,127,80)',
+          backgroundColor: 'rgb(255,127,80)',
+          order: 5
         }
+
         
 			]
     },
