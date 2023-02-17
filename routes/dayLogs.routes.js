@@ -8,11 +8,11 @@ router.get('/day-logs/add', (req, res, next) => {
 });
 
 router.post('/day-logs', (req, res, next) => {
-	const { day, productiveHours, semiProductiveHours} = req.body
+	const { day, productiveHours, lessProductiveHours, hoursOfSleep, nutritionQuality} = req.body
 	// node basic auth: req.session.user 
 	const user = req.session.user
 	const userId = req.session.user._id
-	DayLog.create({ day, productiveHours, semiProductiveHours, owner: userId })
+	DayLog.create({ day, productiveHours, lessProductiveHours, hoursOfSleep, nutritionQuality, owner: userId })
 		.then(createdDayLog => {
 			
 			UserLog.findOneAndUpdate(
@@ -32,23 +32,63 @@ router.post('/day-logs', (req, res, next) => {
 
 
 router.get('/day-logs', isLoggedIn, (req, res, next) => {
-	const userId = req.session.user._id
 
   const query = { }
   if (req.session.user.role === "user") {
     query.owner = req.session.user._id
   }
   console.log(req.session.user)
-	DayLog.find(query)
-	.populate("owner")
-	.then(dayLogs => {
-      console.log("dayLogs: ", dayLogs)
-			res.render('day-logs/index', { dayLogs })
+	UserLog.find(query)
+  	.populate({
+		path: 'logs',
+		populate:  'owner'	
+	})
+
+	.then(userLog => {
+      console.log("dayLogs: ", userLog[0])
+			res.render('day-logs/index', { userLog })
 		})
 		.catch(err => {
 			next(err)
 		})
 });
+
+
+
+router.get('/data', isLoggedIn, (req, res, next) => {
+	const userId = req.session.user._id
+
+	const query = { }
+	if (req.session.user.role === "user") {
+	  query.owner = req.session.user._id
+	}
+	UserLog.find(query)
+	.populate({
+		path: 'logs',
+		populate:  'owner'	
+	})
+		.then((logs) => {
+			res.json(logs)
+			// console.log("LOGS: ",logs)
+			// let userData = []
+			// for (let i=0; i < UserLog.find(query).length; i++) {
+			// 	let jValues = []
+			// 	for (let j=0; i < Object.keys(UserLog.find(query)[0]).length; j++) {
+
+			// 	jValues.push(Object.values[UserLog.find(query)[i]][j])
+
+			// 	}
+			// 	userData.push(jValues)
+			// }
+			console.log(logs)
+		})
+		.catch(err => {
+			next(err)
+		})
+	})
+
+
+
 
 router.get('/day-logs/:id/delete', (req, res, next) => {
 

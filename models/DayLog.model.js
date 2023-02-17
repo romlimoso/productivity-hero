@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const dayLogSchema = new Schema({
 	day: Number,
 	productiveHours: Number,
-	semiProductiveHours: Number,
+	lessProductiveHours: Number,
+	hoursOfSleep: Number,
+	nutritionQuality: Number,
+
+
 /* 	intenseActiveHours: Number,
 	moderateActiveHours: Number,
 	healthyNutrition: Boolean,
 	hoursOfSleep: Number, */
-	
+
 	owner: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'

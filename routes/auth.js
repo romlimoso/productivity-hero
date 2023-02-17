@@ -48,11 +48,10 @@ router.post("/auth/signup", (req, res, next) => {
             console.log(createdUser)
 
         // Create UserLog
-        UserLog.create({ owner: createdUser._id })
-        
+          UserLog.create({ owner: createdUser._id })
             .then(() => {            
               res.redirect("/auth/login")
-          })
+            })
 
           })
           .catch(err => {

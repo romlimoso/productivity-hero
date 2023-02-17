@@ -1,19 +1,27 @@
-<div class="dayLog">
-	<h1>Day-Logs</h1>
+	<h1>Your Day-Log Overview</h1>
 
-	{{#each dayLogs}}
-		<div id=`${{owner.username}}`>
-			<h2>Day: {{day}}</h2>
-			<h2>Productive Hours: {{productiveHours}}</h2>
-			<h2>Semi-Productive Hours: {{semiProductiveHours}}</h2>
-			<h2>User: {{owner.username}}</h2>
+<div class="userLogs">
 
-			<a href="/day-logs/{{_id}}/delete">Delete this Day-Log</a>
+	{{#each userLog}}
+		<canvas class="myChart"></canvas>
+		<div class="userLog">
+			{{#each this.logs}}
+				<div class="dayLog">
+					<h2>Day: {{this.day}}</h2>
+					<p>Productive Hours: {{productiveHours}}</p>
+					<p>Less Productive Hours: {{lessProductiveHours}}</p>
+					<p>Hours of Sleep: {{hoursOfSleep}}</p>
+					<p>Quality of Nutrition: {{nutritionQuality}}</p>
+
+					<p>User: {{owner.username}}</p>
+
+					<a href="/day-logs/{{_id}}/delete">Delete this Day-Log</a>
+				</div>
+			{{/each}}
 		</div>
 	{{/each}}
 
-
-	<a href="/day-logs/add">Add a Day-Log</a>
-	<a href="/profile">User profile</a>
+	<a href="/day-logs/add">Add a Day Log</a>
 	<a href="/">Home</a>
 </div>
+
